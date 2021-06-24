@@ -64,15 +64,15 @@ class TitlePriceRating extends StatelessWidget {
       child: Container(
         alignment: Alignment.topCenter,
         padding: EdgeInsets.symmetric(vertical: 15),
-        height: 66,
-        width: 85,
+        height: 80,
+        width: 105,
         color: kPrimaryColor,
         child: Text(
           "S/."+producto.precio.toString(),
           style: Theme.of(context)
               .textTheme
               .title
-              .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+              .copyWith(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
         ),
       ),
     );

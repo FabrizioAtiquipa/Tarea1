@@ -10,10 +10,11 @@ class LateraPage extends StatefulWidget {
 }
 
 class _LateraPageState extends State<LateraPage> {
+  
   @override
   Widget build(BuildContext context) {
-    final name = 'Fabrizio Atiquipa Mendoza';
-    final email = 'fabrizioati123@gmail.com';
+    final name = 'Fabrizio Atiquipa';
+    final email = 'fabrizio@gmail.com';
     final urlImagen =
         'https://www.semana.com/resizer/j0-vmg1Lq8iUt4qCWu6Aj3QUutw=/1200x675/filters:format(jpg):quality(50)//cloudfront-us-east-1.images.arcpublishing.com/semana/SMRIIBXEONCRDPXLAOVVTRHAVI.jpg';
     return Drawer(
@@ -93,12 +94,7 @@ class _LateraPageState extends State<LateraPage> {
                 ),
               ],
             ),
-            Spacer(),
-            CircleAvatar(
-              maxRadius: 24,
-              backgroundColor: Color(0xffFFA100),
-              child: Icon(Icons.add_comment_outlined, color: Colors.white),
-            )
+            Spacer()
           ],
         ),
       ),

@@ -48,7 +48,7 @@ class ItemInfo extends StatelessWidget {
       ),
       child: Column(
         children: <Widget>[
-          shopeName(name: "Macdonals"),
+          shopeName(name: producto.ubicacion_inicio, destino: producto.ubicacion_destino),
           TitlePriceRating(
             name: producto.nombre_carga,
             numOfReviews: 24,
@@ -62,18 +62,16 @@ class ItemInfo extends StatelessWidget {
               height: 1.5,
             ),
           ),
-          SizedBox(height: size.height * 0.1),
+          Text(""),
+          Text("Peso: "+producto.peso),
+          Text("Tipo: "+producto.tipo),
           // Free space  10% of total height
-          OrderButton(
-            size: size,
-            press: () {},
-          )
         ],
       ),
     );
   }
 
-  Row shopeName({String name}) {
+  Row shopeName({String name, String destino}) {
     return Row(
       children: <Widget>[
         Icon(
@@ -81,7 +79,7 @@ class ItemInfo extends StatelessWidget {
           color: ksecondaryColor,
         ),
         SizedBox(width: 10),
-        Text(name),
+        Text(name+" - "+destino),
       ],
     );
   }

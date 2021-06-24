@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:proyectounderway/src/pages/oferta/categorias.dart';
 
 class CardPage extends StatelessWidget {
   @override
@@ -11,7 +10,6 @@ class CardPage extends StatelessWidget {
         body: ListView(
           padding: EdgeInsets.all(10.0),
           children: <Widget>[
-            Categoria(),
             _cardTipo1(),
             SizedBox(height: 15.0),
             _cardTipo1(),

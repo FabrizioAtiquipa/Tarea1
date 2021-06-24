@@ -56,4 +56,20 @@ class UsuarioProvider {
       return {'ok': false, 'mensaje': decodedResp['error']['message']};
     }
   }
+  //FUNCION AGREGADA NUEVA
+  Future<List<String>> usuarioLogeado() async {
+    final idlogeado = _globalArguments.uid;
+    final url =Uri.https('underway-105f6-default-rtdb.firebaseio.com', 'usuarios/${idlogeado}.json');
+    final resp = await http.get(url);
+    final Map<String, dynamic> decodedData = json.decode(resp.body);
+    final List<String> productos = new List();
+
+    if (decodedData == null) return [];
+
+    decodedData.forEach((id, prod) {
+      final prodTemp = prod;
+        productos.add(prodTemp);
+    });
+    return productos;
+  }
 }
