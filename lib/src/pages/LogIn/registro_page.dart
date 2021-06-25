@@ -40,7 +40,7 @@ class _RegistroPageState extends State<RegistroPage> {
   }
 
   _register(LoginBloc bloc, BuildContext context) async{
-    final info = await usuarioProvider.nuevoUsuario(bloc.email, bloc.password);
+    final info = await usuarioProvider.nuevoUsuario(bloc.name, bloc.email, bloc.password);
     if (info['ok']) {
       Navigator.pushNamed(context, 'home');
     } else {
@@ -82,6 +82,8 @@ class _RegistroPageState extends State<RegistroPage> {
                         color: Color(0xffFFB001),
                         fontWeight: FontWeight.bold)),
                 SizedBox(height: 20.0),
+                _crearNombre(bloc),
+                SizedBox(height: 20.0),
                 _crearEmail(bloc),
                 SizedBox(height: 30.0),
                 _crearPassword(bloc),
@@ -97,6 +99,23 @@ class _RegistroPageState extends State<RegistroPage> {
           SizedBox(height: 100.0)
         ],
       ),
+    );
+  }
+
+  Widget _crearNombre(LoginBloc bloc) {
+    return StreamBuilder(
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: TextField(
+            decoration: InputDecoration(
+                labelText: 'Nombre',
+                counterText: snapshot.data,
+                errorText: snapshot.error),
+            onChanged: bloc.changeName,
+          ),
+        );
+      },
     );
   }
 

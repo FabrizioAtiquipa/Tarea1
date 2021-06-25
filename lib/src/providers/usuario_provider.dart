@@ -20,21 +20,27 @@ class UsuarioProvider {
         body: json.encode(authData));
     Map<String, dynamic> decodedResp = json.decode(resp.body);
     print(decodedResp);
+    //Obteniendo los datos del usuario como variables globales
+    final url = Uri.https('underway-105f6-default-rtdb.firebaseio.com', 'usuarios/${decodedResp['localId']}.json');
+    final respName = await http.get(url);
+    final Map<String, dynamic> decodedData = json.decode(respName.body);
+    _globalArguments.setUid(decodedResp['localId']);
+    _globalArguments.setName(decodedData['name']);
+    _globalArguments.setEmail(decodedData['email']);
+    //_globalArguments.setUrlPerfil(decodedResp['']);
+
     if (decodedResp.containsKey('idToken')) {
       _prefs.token = decodedResp['idToken'];
-      _globalArguments.setUid(decodedResp['localId']);
-      _globalArguments.setName(decodedResp['email']);
-      _globalArguments.setEmail(decodedResp['email']);
-      //_globalArguments.setUrlPerfil(decodedResp['']);
       return {'ok': true, 'token': decodedResp['idToken']};
     } else {
       return {'ok': false, 'mensaje': decodedResp['error']['message']};
     }
   }
 
-  Future<Map<String, dynamic>> nuevoUsuario(
+  Future<Map<String, dynamic>> nuevoUsuario(String name,
       String email, String password) async {
     final authData = {
+      'name': name,
       'email': email,
       'password': password,
       'returnSecureToken': true
@@ -51,9 +57,17 @@ class UsuarioProvider {
       Uri.https('underway-105f6-default-rtdb.firebaseio.com', 'usuarios/${decodedResp['localId']}.json'),
       body: json.encode(authData));
 
+    //Obteniendo los datos del usuario como variables globales
+    final url = Uri.https('underway-105f6-default-rtdb.firebaseio.com', 'usuarios/${decodedResp['localId']}.json');
+    final respName = await http.get(url);
+    final Map<String, dynamic> decodedData = json.decode(respName.body);
+    _globalArguments.setUid(decodedResp['localId']);
+    _globalArguments.setName(decodedData['name']);
+    _globalArguments.setEmail(decodedData['email']);
+    //_globalArguments.setUrlPerfil(decodedResp['']);
+
     if (decodedResp.containsKey('idToken')) {
       _prefs.token = decodedResp['idToken'];
-      _globalArguments.setUid(decodedResp['localId']);
       return {'ok': true, 'token': decodedResp['idToken']};
     } else {
       return {'ok': false, 'mensaje': decodedResp['error']['message']};
