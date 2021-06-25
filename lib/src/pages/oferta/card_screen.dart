@@ -1,36 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:proyectounderway/src/models/oferta_model.dart';
+import 'package:proyectounderway/src/providers/ofertas_provider.dart';
 
 class CardPage extends StatelessWidget {
+  final ofertasProvider = new OfertasProvider();
+  OfferModel oferta = new OfferModel();
+  String carga_id = "";
+
   @override
   Widget build(BuildContext context) {
+    final String oferData = ModalRoute.of(context).settings.arguments;
+    if (oferData != null) {
+      carga_id = oferData;
+    }
     return Scaffold(
         appBar: AppBar(
           title: Text('Oferta'),
         ),
-        body: ListView(
-          padding: EdgeInsets.all(10.0),
-          children: <Widget>[
-            _cardTipo1(),
-            SizedBox(height: 15.0),
-            _cardTipo1(),
-            SizedBox(height: 15.0),
-            _cardTipo1(),
-            SizedBox(height: 15.0),
-            _cardTipo1(),
-            SizedBox(height: 15.0),
-            _cardTipo1(),
-            SizedBox(height: 15.0),
-            _cardTipo1(),
-            SizedBox(height: 15.0),
-            _cardTipo1(),
-            SizedBox(height: 15.0),
-            _cardTipo1(),
-            SizedBox(height: 15.0),
-          ],
-        ));
+        body: _crearListado(),
+    );
   }
 
-  Widget _cardTipo1() {
+  Widget _crearListado() {
+    return FutureBuilder(
+        future: ofertasProvider.cargarOfertas(carga_id),
+        builder:
+            (BuildContext context, AsyncSnapshot<List<OfferModel>> snapshot) {
+          if (snapshot.hasData) {
+            final ofertas = snapshot.data;
+            return ListView.builder(
+                itemCount: ofertas.length,
+                itemBuilder: (context, i) => _cardTipo1(context, ofertas[i]));
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        });
+  }
+
+  Widget _cardTipo1(BuildContext context, OfferModel oferta) {
     return Card(
       elevation: 10.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -41,9 +48,9 @@ class CardPage extends StatelessWidget {
               width: 55.0,
               image: AssetImage('assets/fondolateral.jpg'),
             ),
-            title: Text('Oferta 1'),
+            title: Text('Nueva oferta'),
             subtitle: Text(
-                'El transportista ofreces 150.50 por su carga.'),
+                'El transportista ofreces ${oferta.precio} soles por su carga.'),
           ),
           Container(
             height: 35.0,
@@ -51,7 +58,10 @@ class CardPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 TextButton(onPressed: () {}, child: Text('Aceptar')),
-                TextButton(onPressed: () {}, child: Text('Cancelar')),
+                TextButton(onPressed: () {
+                  ofertasProvider.borrarOferta(carga_id,oferta.id);
+                  Navigator.pushNamed(context, 'oferta', arguments: carga_id);
+                }, child: Text('Cancelar')),
               ],
             ),
           )

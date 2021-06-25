@@ -80,6 +80,19 @@ class _HomePageState extends State<HomePage> {
                             arguments: producto)
                         .then((value) => setState(() {})),
                   ),
+                  ButtonBar(alignment: MainAxisAlignment.end, children: [
+                    TextButton.icon(
+                      onPressed: () { 
+                        Navigator.pushNamed(context, 'oferta', arguments: producto.id);
+                      },
+                      style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all<Color>(Color(0xffFFB001)),
+                      ),
+                      label: Text('Revisar ofertas'),
+                      icon: Icon(Icons.monetization_on),
+                    )
+                  ]),
                 ],
               )),
         ));

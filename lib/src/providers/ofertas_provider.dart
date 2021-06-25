@@ -18,4 +18,29 @@ class OfertasProvider {
     print(decodedData);
     return true;
   }
+
+  Future<List<OfferModel>> cargarOfertas(String carga_id) async {
+    final url = Uri.https(_url, 'cargas/${carga_id}/ofertas.json');
+    final resp = await http.get(url);
+    final Map<String, dynamic> decodedData = json.decode(resp.body);
+    final List<OfferModel> ofertas = new List();
+
+    if (decodedData == null) return [];
+
+    decodedData.forEach((id, ofer) {
+      final oferTemp = OfferModel.fromJson(ofer);
+      oferTemp.id = id;
+      ofertas.add(oferTemp);
+    });
+    return ofertas;
+  }
+
+  Future<int> borrarOferta(String carga_id, String id) async {
+    final url = Uri.https(_url, 'cargas/$carga_id/ofertas/$id.json');
+    final resp = await http.delete(url);
+
+    print(json.decode(resp.body));
+
+    return 1;
+  }
 }
