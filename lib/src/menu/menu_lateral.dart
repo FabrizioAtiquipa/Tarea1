@@ -3,6 +3,7 @@ import 'package:proyectounderway/src/menu/background_lateral.dart';
 import 'package:proyectounderway/src/pages/Map/map_page.dart';
 import 'package:proyectounderway/src/pages/products/home_page.dart';
 import 'package:proyectounderway/src/pages/products/transportista_page.dart';
+import 'package:proyectounderway/src/utils/global_arguments.dart';
 
 class LateraPage extends StatefulWidget {
   @override
@@ -10,13 +11,13 @@ class LateraPage extends StatefulWidget {
 }
 
 class _LateraPageState extends State<LateraPage> {
+  GlobalArguments _globalArguments = GlobalArguments();
   
   @override
   Widget build(BuildContext context) {
-    final name = 'Fabrizio Atiquipa';
-    final email = 'fabrizio@gmail.com';
-    final urlImagen =
-        'https://www.semana.com/resizer/j0-vmg1Lq8iUt4qCWu6Aj3QUutw=/1200x675/filters:format(jpg):quality(50)//cloudfront-us-east-1.images.arcpublishing.com/semana/SMRIIBXEONCRDPXLAOVVTRHAVI.jpg';
+    final name = _globalArguments.name;
+    final email = _globalArguments.email;
+    final urlImagen = _globalArguments.url_perfil;
     return Drawer(
       child: Material(
         color: Colors.green,

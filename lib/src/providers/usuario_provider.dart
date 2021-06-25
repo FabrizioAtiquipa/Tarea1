@@ -23,6 +23,9 @@ class UsuarioProvider {
     if (decodedResp.containsKey('idToken')) {
       _prefs.token = decodedResp['idToken'];
       _globalArguments.setUid(decodedResp['localId']);
+      _globalArguments.setName(decodedResp['email']);
+      _globalArguments.setEmail(decodedResp['email']);
+      //_globalArguments.setUrlPerfil(decodedResp['']);
       return {'ok': true, 'token': decodedResp['idToken']};
     } else {
       return {'ok': false, 'mensaje': decodedResp['error']['message']};
