@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:proyectounderway/src/menu/menu_lateral.dart';
 import 'package:proyectounderway/src/providers/productos_provider.dart';
+import 'package:proyectounderway/src/providers/ofertas_provider.dart';
 import 'package:proyectounderway/src/models/producto_model.dart';
+import 'package:proyectounderway/src/models/oferta_model.dart';
+import 'package:proyectounderway/src/utils/global_arguments.dart';
 
 class Transportista extends StatefulWidget {
   @override
@@ -11,6 +14,9 @@ class Transportista extends StatefulWidget {
 class _TransportistaState extends State<Transportista> {
 
   final productosProvider = new ProductosProvider();
+  final ofertaProvider = new OfertasProvider();
+  OfferModel oferta = new OfferModel();
+  GlobalArguments _globalArguments = GlobalArguments();
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +76,7 @@ class _TransportistaState extends State<Transportista> {
                   ButtonBar(alignment: MainAxisAlignment.end, children: [
                     TextButton.icon(
                       onPressed: () {
-                        _mostrarAlert(context);
+                        _mostrarAlert(context, producto.id);
                       },
                       style: ButtonStyle(
                         foregroundColor:
@@ -96,7 +102,16 @@ class _TransportistaState extends State<Transportista> {
         ));
   }
 
-  void _mostrarAlert(BuildContext context) {
+  Widget _crearPrecio() {
+    return TextFormField(
+      initialValue: '0',
+      keyboardType: TextInputType.numberWithOptions(decimal: true),
+      decoration: InputDecoration(labelText: 'Precio'),
+      onChanged: (value) => oferta.precio = double.parse(value),
+    );
+  }
+
+  void _mostrarAlert(BuildContext context, String carga_id) {
     showDialog(
         context: context,
         barrierDismissible: true,
@@ -104,26 +119,12 @@ class _TransportistaState extends State<Transportista> {
           return AlertDialog(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            title: Text('Oefertar'),
+            title: Text('Ofertar'),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text('Enviar Oferta'),
-                TextFormField(
-                  initialValue: '0',
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  decoration: InputDecoration(labelText: 'Precio'),
-                ),
-                TextFormField(
-                  initialValue: 'N.A',
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  decoration: InputDecoration(labelText: 'Detalles del camion'),
-                ),
-                TextFormField(
-                  initialValue: '0.0.0',
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  decoration: InputDecoration(labelText: 'Tiempo de duracion'),
-                )
+                _crearPrecio()
               ],
             ),
             actions: <Widget>[
@@ -131,10 +132,16 @@ class _TransportistaState extends State<Transportista> {
                   onPressed: () => Navigator.of(context).pop(),
                   child: Text('Cancelar')),
               TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: () {_submit(carga_id);},
                   child: Text('Enviar')),
             ],
           );
         });
+  }
+  
+  void _submit(String carga_id) async {
+    oferta.transportista_id = _globalArguments.uid;
+    ofertaProvider.crearOferta(oferta, carga_id);
+    Navigator.of(context).pop();
   }
 }

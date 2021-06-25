@@ -46,8 +46,10 @@ class ProductosProvider {
 
     decodedData.forEach((id, prod) {
       final prodTemp = ProductModel.fromJson(prod);
-      prodTemp.id = id;
-      productos.add(prodTemp);
+      if (prodTemp.owner_id != _globalArguments.uid){
+        prodTemp.id = id;
+        productos.add(prodTemp);
+      }
     });
 
     return productos;
